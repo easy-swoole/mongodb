@@ -24,7 +24,7 @@ abstract class AbstractDriver extends AbstractUnixProcess
     {
         //解析出命令
         $command =  $this->recv($socket);
-        if($command == 'startTransaction')
+        if($command->getAction() == 'startTransaction')
         {
             $this->isTransactionStart = $this->startTransaction();
             if($this->isTransactionStart){
