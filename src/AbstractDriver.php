@@ -40,6 +40,7 @@ abstract class AbstractDriver extends AbstractUnixProcess
                         //执行命令，直到rollback或者endTransaction退出循环
                         //在可以保证在开启事务的时候，只要客户端长连接,就可以保证事务
                         $command = $this->recv($socket);
+                        //执行对应的action并回复
                     }
                     //断开连接
                 }else{
@@ -49,6 +50,8 @@ abstract class AbstractDriver extends AbstractUnixProcess
             }else{
                 //回复失败消息并断开
             }
+        }else{
+            //执行对应的action并回复后断开
         }
     }
 
