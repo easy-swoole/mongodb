@@ -1,0 +1,24 @@
+#!/usr/bin/env php
+<?php
+/**
+ * Created by PhpStorm.
+ * User: yf
+ * Date: 2019-01-06
+ * Time: 21:49
+ */
+
+use Swoole\Coroutine\Scheduler;
+use EasySwoole\Phpunit\Runner;
+
+require_once getcwd().'/vendor/autoload.php';
+/*
+ * 允许自动的执行一些初始化操作，只初始化一次
+ */
+if(file_exists(getcwd().'/phpunit.php')){
+    require_once getcwd().'/phpunit.php';
+}
+$scheduler = new Scheduler();
+$scheduler->add(function() {
+    Runner::run();
+});
+$scheduler->start();

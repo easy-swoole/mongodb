@@ -17,7 +17,10 @@
         }
     ],
     "require": {
-        "easyswoole/spl": "^1.0"
+        "easyswoole/spl": "^1.0",
+        "ext-json": "*",
+        "ext-mongodb": "*",
+        "ext-mongo": "*"
     },
     "require-dev": {
         "easyswoole/swoole-ide-helper": "^1.1",
@@ -25,7 +28,8 @@
     },
     "autoload": {
         "psr-4": {
-            "EasySwoole\\MongoDb\\": "src/"
+            "EasySwoole\\MongoDb\\": "src/",
+            "EasySwoole\\MongoDb\\Test\\": "test/"
         }
     }
 }
