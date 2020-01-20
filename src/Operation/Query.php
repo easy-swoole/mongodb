@@ -8,6 +8,7 @@
 namespace EasySwoole\MongoDb\Operation;
 
 use EasySwoole\MongoDb\Exception\ConnectionException;
+use EasySwoole\MongoDb\Exception\RuntimeException;
 use EasySwoole\MongoDb\Params\Query as ParamsQuery;
 use EasySwoole\MongoDb\Protocol;
 use function MongoDB\BSON\fromPHP;
@@ -36,9 +37,10 @@ class Query extends BaseOperation
             $requestData = Protocol::encode(Protocol::OP_QUERY, $params);
             var_dump($requestData);
             $data = $connect->send($requestData);
-            var_dump($data);
+            $ret  = Protocol::decode(Protocol::OP_REPLY, substr($data, 4));
+            var_dump($ret);
         } catch (\Exception $e) {
-            var_dump($e->getMessage());
+            throw new RuntimeException($e->getMessage());
         }
     }
 }

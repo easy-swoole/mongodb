@@ -8,6 +8,7 @@
 namespace EasySwoole\MongoDb\Operation;
 
 use EasySwoole\MongoDb\Exception\ConnectionException;
+use EasySwoole\MongoDb\Exception\RuntimeException;
 use EasySwoole\MongoDb\Protocol;
 use Exception;
 use EasySwoole\MongoDb\Params\Insert as ParamsInsert;
@@ -17,7 +18,7 @@ class Insert extends BaseOperation
 {
     /**
      * @param ParamsInsert $insert
-     * @throws Exception
+     * @return mixed
      */
     public function execute (ParamsInsert $insert)
     {
@@ -30,15 +31,22 @@ class Insert extends BaseOperation
 
         $params = [
             'flags'                 => $insert->getFlags(),
-            'fullCollectionName'    => $insert->getFullCollectionName(),
+            'fullCollectionName'    => bin2hex($insert->getFullCollectionName()),
             'documents'             => bin2hex(fromPHP($insert->getDocuments()))
         ];
 
+        var_dump($insert->getDocuments());
+        var_dump(fromPHP($insert->getDocuments()));
+        var_dump(bin2hex(fromPHP($insert->getDocuments())));
+
         var_dump($params);
-        $requestData = Protocol::encode(Protocol::OP_INSERT, $params);
-        $data = $connect->send($requestData);
-        var_dump($data);
-//        $ret  = Protocol::decode(Protocol::OP_INSERT, substr($data, 4));
-//        return $ret;
+        try {
+            $requestData = Protocol::encode(Protocol::OP_INSERT, $params);
+            $data = $connect->send($requestData);
+            var_dump($data);
+            return $data;
+        } catch (Exception $exception) {
+            throw new RuntimeException($exception->getMessage());
+        }
     }
 }

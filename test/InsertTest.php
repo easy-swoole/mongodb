@@ -34,12 +34,12 @@ class InsertTest extends TestCase
     public function testInsert()
     {
         $config = new Config();
-        $config->setHostname('116.62.51.202:27017');
+        $config->setHostname('127.0.0.1:27017');
 
         $insertData = new Insert();
         $insertData->setFlags(0);
-        $insertData->setFullCollectionName('test.runoob');
-        $insertData->setDocuments(['name' => '测试']);
+        $insertData->setFullCollectionName('test.test');
+        $insertData->setDocuments(['foo' => 1]);
 
         $mongo = new MongoDb($config);
         $mongo->insert($insertData);
@@ -79,5 +79,18 @@ class InsertTest extends TestCase
 //        foreach ($cursor as $document) {
 //            print_r($document);
 //        }
+//    }
+
+//    public function testMongoInser()
+//    {
+//        $bulk = new BulkWrite;
+//
+//        $document1 = ['title' => 'one'];
+//
+//        $_id1 = $bulk->insert($document1);
+//        var_dump($_id1);
+//        $manager = new Manager('mongodb://localhost:27017');
+//        $result = $manager->executeBulkWrite('test.test', $bulk);
+//        var_dump($result);
 //    }
 }
