@@ -44,8 +44,43 @@ class Reply extends Protocol
         return $data;
     }
 
+    /**
+     * @param string $data
+     * @return array
+     * @throws ProtocolException
+     */
     public function decode (string $data): array
     {
-        // TODO: Implement decode() method.
+        $offset        = 0;
+        $requestID      = self::pack(self::BIT_B32, substr($data, $offset, 4));
+        $offset       += 4;
+        $responseTo     = self::pack(self::BIT_B32, substr($data, $offset, 4));
+        $offset       += 4;
+        $opCode         = self::pack(self::BIT_B32, substr($data, $offset, 4));
+        $offset       += 4;
+        $responseFlags = self::unpack(self::BIT_B32, substr($data, $offset, 4));
+        $offset       += 4;
+        $generationId  = self::unpack(self::BIT_B32, substr($data, $offset, 4));
+        $offset       += 4;
+        $cursorID      = self::unpack(self::BIT_B64, substr($data, $offset, 8));
+        $offset       += 8;
+        $startingFrom  = self::unpack(self::BIT_B64, substr($data, $offset, 4));
+        $offset       += 4;
+        $numberReturned= self::unpack(self::BIT_B64, substr($data, $offset, 4));
+        $offset       += 4;
+        $documents     = $this->decodeString(substr($data, $offset), self::BIT_B32);
+        $offset       += $documents['length'];
+
+        return [
+            'requestID'     => $requestID,
+            'responseTo'    => $responseTo,
+            'opCode'        => $opCode,
+            'responseFlags' => $responseFlags,
+            'generationId'  => $generationId,
+            'cursorID'      => $cursorID,
+            'startingFrom'  => $startingFrom,
+            'numberReturned'=> $numberReturned,
+            'documents'     => $documents['data'],
+        ];
     }
 }

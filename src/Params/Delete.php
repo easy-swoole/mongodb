@@ -2,12 +2,12 @@
 /**
  * Created by PhpStorm.
  * User: Manlin
- * Date: 2019/11/22
- * Time: 6:01 下午
+ * Date: 2020/1/3
+ * Time: 1:15 下午
  */
 namespace EasySwoole\MongoDb\Params;
 
-class Insert extends BaseParams
+class Delete extends BaseParams
 {
     /**
      * @var int bit vector
@@ -15,9 +15,10 @@ class Insert extends BaseParams
     private $flags = 0;
 
     /**
-     * @var array one or more documents to insert into the collection
+     * BSON document that specifies the query for selection of the document to update.
+     * @var
      */
-    private $documents;
+    private $selector;
 
     /**
      * @return int
@@ -36,18 +37,18 @@ class Insert extends BaseParams
     }
 
     /**
-     * @return array
+     * @return mixed
      */
-    public function getDocuments ()
+    public function getSelector ()
     {
-        return $this->documents;
+        return $this->selector;
     }
 
     /**
-     * @param array $documents
+     * @param mixed $selector
      */
-    public function setDocuments (array $documents): void
+    public function setSelector ($selector): void
     {
-        $this->documents = $documents;
+        $this->selector = $selector;
     }
 }

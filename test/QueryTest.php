@@ -21,7 +21,7 @@ class QueryTest extends TestCase
     public function testQuery()
     {
         $config = new Config();
-        $config->setHostname('116.62.51.202:27017');
+        $config->setHostname('127.0.0.1:27017');
 
         $queryData = new Query();
 //        $queryData->setFlags(0);
